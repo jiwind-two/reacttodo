@@ -3,11 +3,8 @@ import "./styles.css";
 
 export const App = () => {
   const [todoText, setTodoText] = useState(``);
-  const [incompleteTodos, setincompleteTodos] = useState([
-    `ああああ`,
-    `いいいい`
-  ]);
-  const [completeTodos, setcompleteTodos] = useState([`うううううう`]);
+  const [incompleteTodos, setincompleteTodos] = useState([]);
+  const [completeTodos, setcompleteTodos] = useState([]);
   const onChangeTodoText = (event) => setTodoText(event.target.value);
   const onClickAdd = () => {
     if (todoText === "") return;
@@ -19,6 +16,20 @@ export const App = () => {
     const newTodo = [...incompleteTodos];
     newTodo.splice(index, 1);
     setincompleteTodos(newTodo);
+  };
+  const onClickComplete = (index) => {
+    const newTodo = [...incompleteTodos];
+    newTodo.splice(index, 1);
+    setincompleteTodos(newTodo);
+    const newTodo2 = [...completeTodos, incompleteTodos[index]];
+    setcompleteTodos(newTodo2);
+  };
+  const onClickBack = (index) => {
+    const newcompleteTodo = [...completeTodos];
+    newcompleteTodo.splice(index, 1);
+    setcompleteTodos(newcompleteTodo);
+    const newIncompleteTodo = [...incompleteTodos, completeTodos[index]];
+    setincompleteTodos(newIncompleteTodo);
   };
 
   return (
@@ -38,12 +49,11 @@ export const App = () => {
             return (
               <div key={todo} className="list-row">
                 <li>{todo}</li>
-                <button>完了</button>
+                <button onClick={() => onClickComplete(index)}>完了</button>
                 <button onClick={() => onClickDelete(index)}>削除</button>
               </div>
             );
           })}
-          ;
         </ul>
       </div>
       <div className="complete-area">
@@ -53,11 +63,10 @@ export const App = () => {
             return (
               <div key={todo} className="list-row">
                 <li>{todo}</li>
-                <button>戻す</button>
+                <button onClick={() => onClickBack(index)}>戻す</button>
               </div>
             );
           })}
-          ;
         </ul>
       </div>
     </>
