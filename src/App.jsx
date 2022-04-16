@@ -10,11 +10,14 @@ export const App = () => {
   const [completeTodos, setcompleteTodos] = useState([`うううううう`]);
   const onChangeTodoText = (event) => setTodoText(event.target.value);
   const onClickAdd = () => {
+    if (todoText === "") return;
     const newTodo = [...incompleteTodos, todoText];
-    alert(todoText);
     setincompleteTodos(newTodo);
+    setTodoText("");
   };
-
+  const onClickDelete = () => {
+    alert("削除");
+  };
   return (
     <>
       <div className="input-area">
@@ -33,7 +36,7 @@ export const App = () => {
               <div key={todo} className="list-row">
                 <li>{todo}</li>
                 <button>完了</button>
-                <button>削除</button>
+                <button onClick={onClickDelete}>削除</button>
               </div>
             );
           })}
